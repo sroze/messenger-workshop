@@ -1,5 +1,10 @@
 framework:
     messenger:
+        buses:
+            command_bus: ~
+            event_bus:
+                default_middleware: 'allow_no_handlers'
+
         transports:
             # Uncomment the following line to enable a transport named "amqp"
             # amqp: '%env(MESSENGER_TRANSPORT_DSN)%'

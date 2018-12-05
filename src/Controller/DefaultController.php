@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Message\GetBets;
 use App\Message\RegisterBet;
+use App\Message\ReportResult;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -38,5 +39,21 @@ class DefaultController
         return [
             'bets' => $handledStamp->getResult(),
         ];
+    }
+
+    /**
+     * @Route("/report", name="report", methods={"POST"})
+     */
+    public function report(
+        Request $request,
+        MessageBusInterface $messageBus
+    ) {
+        $messageBus->dispatch(new ReportResult(
+            $request->request->get('game'),
+            $request->request->getInt('leftScore'),
+            $request->request->getInt('rightScore')
+        ));
+
+        return new Response('OK');
     }
 }
