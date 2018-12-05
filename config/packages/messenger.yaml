@@ -4,14 +4,16 @@ framework:
             command_bus:
                 middleware:
                 - 'App\Middleware\AuditMiddleware'
+
             event_bus:
                 middleware:
                 - 'App\Middleware\AuditMiddleware'
-                default_middleware: 'allow_no_handlers'
 
         transports:
             amqp: '%env(MESSENGER_TRANSPORT_DSN)%'
+            won: https://webhook.site/f4c219ca-a3d4-447f-9dfb-92ce7f244d66
 
         routing:
             # Route your messages to the transports
             'App\Message\Lost': amqp
+            'App\Message\Won': won
