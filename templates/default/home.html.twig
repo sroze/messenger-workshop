@@ -8,4 +8,10 @@
     <p><label>Right Score</label> <input type="text" name="rightScore" /></p>
     <button type="submit">Bet!</button>
 </form>
+<h1>Bets</h1>
+<ul>
+{% for bet in bets %}
+    <li>[{{ bet.user }}] ({{ bet.leftScore }}) {{ bet.game }} ({{ bet.rightScore }})</li>
+{% endfor %}
+</ul>
 {% endblock %}

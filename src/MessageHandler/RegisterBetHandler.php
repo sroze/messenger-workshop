@@ -2,13 +2,32 @@
 
 namespace App\MessageHandler;
 
+use App\Entity\Bet;
 use App\Message\RegisterBet;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class RegisterBetHandler implements MessageHandlerInterface
 {
+    private $entityManager;
+
+    public function __construct(
+        EntityManagerInterface $entityManager
+    )
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function __invoke(RegisterBet $message)
     {
-        var_dump($message);
+        $bet = new Bet(
+            $message->user,
+            $message->game,
+            $message->leftScore,
+            $message->rightScore
+        );
+
+        $this->entityManager->persist($bet);
+        $this->entityManager->flush();
     }
 }
