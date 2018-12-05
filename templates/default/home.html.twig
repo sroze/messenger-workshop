@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<h2>Register a bet</h2>
+<form method="post">
+    <p><label>Who?</label> <input type="text" name="user" /></p>
+    <p><label>Game</label> <input type="text" name="game" /></p>
+    <p><label>Left Score</label> <input type="text" name="leftScore" /></p>
+    <p><label>Right Score</label> <input type="text" name="rightScore" /></p>
+    <button type="submit">Bet!</button>
+</form>
+{% endblock %}
