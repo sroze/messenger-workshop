@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler;
 
+use App\Exception\ClientUnauthorized;
 use App\Message\GameResultMessage;
 use App\Message\Lost;
 use App\Message\Won;
@@ -12,6 +13,14 @@ class BetResultHandler implements MessageSubscriberInterface
 {
     public function handleResult($message)
     {
+        if ($message instanceof Lost) {
+            try {
+                throw new \InvalidArgumentException('User is not allowed.');
+            } catch (\InvalidArgumentException $e) {
+                throw new ClientUnauthorized('Oups.');
+            }
+        }
+
         echo $message->bet->user." ".get_class($message)."<br>";
     }
 
