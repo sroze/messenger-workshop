@@ -2,20 +2,13 @@ framework:
     messenger:
         default_bus: command_bus
         buses:
+            command_bus: ~
+            event_bus: ~
 
-            command_bus:
-                middleware:
-                - 'App\Middleware\AuditMiddleware'
-
-            event_bus:
-                middleware:
-                - 'App\Middleware\AuditMiddleware'
-
-        transports:
-            amqp: '%env(MESSENGER_TRANSPORT_DSN)%'
-            won: https://webhook.site/f4c219ca-a3d4-447f-9dfb-92ce7f244d66
+#        transports:
+            # amqp: '%env(MESSENGER_TRANSPORT_DSN)%'
 
         routing:
             # Route your messages to the transports
-            'App\Message\Lost': amqp
-            'App\Message\Won': won
+            # 'App\Message\Lost': amqp
+            # 'App\Message\Won': amqp
