@@ -2,22 +2,16 @@
 
 namespace App\Transport;
 
+use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Messenger\Transport\TransportFactoryInterface;
 use Symfony\Component\Messenger\Transport\TransportInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class HttpTransportFactory implements TransportFactoryInterface
 {
-    private $normalizer;
-
-    public function __construct(NormalizerInterface $normalizer)
+    public function createTransport(string $dsn, array $options, SerializerInterface $serializer): TransportInterface
     {
-        $this->normalizer = $normalizer;
-    }
-
-    public function createTransport(string $dsn, array $options): TransportInterface
-    {
-        return new HttpTransport($this->normalizer, $dsn);
+        return new HttpTransport($serializer, $dsn);
     }
 
     public function supports(string $dsn, array $options): bool

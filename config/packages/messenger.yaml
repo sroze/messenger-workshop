@@ -1,6 +1,8 @@
 framework:
     messenger:
+        default_bus: command_bus
         buses:
+
             command_bus:
                 middleware:
                 - 'App\Middleware\AuditMiddleware'

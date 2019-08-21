@@ -4,18 +4,18 @@ namespace App\Transport;
 
 use GuzzleHttp\Client;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Messenger\Transport\TransportInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class HttpTransport implements TransportInterface
 {
+    private $serializer;
     private $url;
-    private $normalizer;
 
-    public function __construct(NormalizerInterface $normalizer, string $url)
+    public function __construct(SerializerInterface $serializer, string $url)
     {
+        $this->serializer = $serializer;
         $this->url = $url;
-        $this->normalizer = $normalizer;
     }
 
     public function receive(callable $handler): void
@@ -34,12 +34,22 @@ class HttpTransport implements TransportInterface
         (new Client())->post(
             $this->url,
             [
-                'json' => $this->normalizer->normalize(
-                    $envelope->getMessage()
-                ),
+                'json' => $this->serializer->encode($envelope)['body'],
             ]
         );
 
         return $envelope;
+    }
+
+    public function get(): iterable
+    {
+    }
+
+    public function ack(Envelope $envelope): void
+    {
+    }
+
+    public function reject(Envelope $envelope): void
+    {
     }
 }
