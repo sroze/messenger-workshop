@@ -54,6 +54,6 @@ class DefaultController
             $request->request->getInt('rightScore')
         ));
 
-        return new Response('Reported.');
+        return new Response('<html><body>Reported.</body></html>');
     }
 }
