@@ -9,6 +9,8 @@ class BetResultHandler implements MessageSubscriberInterface
 {
     public function handleResult($message)
     {
+        sleep(1);
+
         echo $message->bet->user." ".get_class($message)."<br>";
     }
 

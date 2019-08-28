@@ -6,7 +6,6 @@ use App\Entity\Bet;
 use App\Message\Lost;
 use App\Message\ReportResult;
 use App\Message\Won;
-use App\Stamp\IdentifierStamp;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -39,7 +38,6 @@ class ReportResultHandler implements MessageHandlerInterface
             } else {
                 $this->messageBus->dispatch(
                     (new Envelope(new Lost($bet)))
-                        ->with(new IdentifierStamp('1234'))
                 );
             }
         }
