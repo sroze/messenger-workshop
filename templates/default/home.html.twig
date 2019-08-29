@@ -11,7 +11,11 @@
 <h1>Bets</h1>
 <ul>
 {% for bet in bets %}
-    <li>[{{ bet.user }}] ({{ bet.leftScore }}) {{ bet.game }} ({{ bet.rightScore }})</li>
+    <li>
+        [{{ bet.user }}] ({{ bet.leftScore }}) {{ bet.game }} ({{ bet.rightScore }})
+
+        <a href="{{ path('delete_bet', { 'id': bet.id }) }}">Delete</a>
+    </li>
 {% endfor %}
 </ul>
 <hr />

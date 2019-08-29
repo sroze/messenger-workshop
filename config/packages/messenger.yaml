@@ -2,13 +2,16 @@ framework:
     messenger:
         default_bus: command_bus
         buses:
-            command_bus: ~
+            command_bus:
+                middleware:
+                    - 'App\Middleware\AuditMiddleware'
+
             event_bus: ~
 
-#        transports:
-            # amqp: '%env(MESSENGER_TRANSPORT_DSN)%'
+        transports:
+            transport_name: '%env(MESSENGER_TRANSPORT_DSN)%'
 
         routing:
             # Route your messages to the transports
-            # 'App\Message\Lost': amqp
-            # 'App\Message\Won': amqp
+            'App\Message\Lost': transport_name
+            'App\Message\Won': transport_name
