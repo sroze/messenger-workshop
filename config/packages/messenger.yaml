@@ -6,12 +6,21 @@ framework:
                 middleware:
                     - 'App\Middleware\AuditMiddleware'
 
-            event_bus: ~
+            event_bus:
+                middleware:
+                    - 'App\Middleware\AuditMiddleware'
+
+        failure_transport: failure
 
         transports:
-            transport_name: '%env(MESSENGER_TRANSPORT_DSN)%'
+            amqp:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                retry_strategy:
+                    max_retries: 2
+
+            failure: doctrine://default?queue_name=failures
 
         routing:
             # Route your messages to the transports
-            'App\Message\Lost': transport_name
-            'App\Message\Won': transport_name
+            'App\Message\Lost': amqp
+            'App\Message\Won': amqp

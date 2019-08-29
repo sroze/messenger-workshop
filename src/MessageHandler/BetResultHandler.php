@@ -9,9 +9,11 @@ class BetResultHandler implements MessageSubscriberInterface
 {
     public function handleResult($message)
     {
+//        throw new \Exception('Something went wrong.');
+
         sleep(1);
 
-        echo $message->bet->user." ".get_class($message)."<br>";
+        echo $message->bet->user." ".get_class($message)."<br>\n";
     }
 
     public static function getHandledMessages(): iterable
