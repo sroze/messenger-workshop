@@ -19,8 +19,9 @@ framework:
                     max_retries: 2
 
             failure: doctrine://default?queue_name=failures
+            google: http://requestbin.net/r/1gxt6i61
 
         routing:
             # Route your messages to the transports
             'App\Message\Lost': amqp
-            'App\Message\Won': amqp
+            'App\Message\Won': [ amqp, google ]
