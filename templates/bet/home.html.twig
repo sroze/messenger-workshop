@@ -9,4 +9,9 @@
 
         <button type="submit">Bet 🎟</button>
     </form>
+
+    <hr />
+    {% for bet in bets %}
+    {{ bet.user }}: {{ bet.game }}.
+    {% endfor %}
 {% endblock %}

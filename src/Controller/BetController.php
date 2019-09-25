@@ -2,21 +2,29 @@
 
 namespace App\Controller;
 
+use App\Message\GetBets;
 use App\Message\PlaceBet;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BetController
+class BetController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      * @Template()
      */
-    public function home()
+    public function home(MessageBusInterface $messageBus)
     {
-        return [];
+        $envelope = $messageBus->dispatch(new GetBets());
+        $stamp = $envelope->last(HandledStamp::class);
+
+        return [
+            'bets' => $stamp->getResult(),
+        ];
     }
 
     /**
@@ -34,5 +42,6 @@ class BetController
                 $request->request->getInt('rightScore')
             )
         );
+        return $this->redirectToRoute('home');
     }
 }
