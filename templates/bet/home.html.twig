@@ -16,7 +16,11 @@
     {% endfor %}
     </ul>
     <hr />
+    <h3>Your are an admin, you can do this.</h3>
     <form method="post">
-        <button type="submit">Shuffle</button>
+        <input type="text" name="game" placeholder="Which bet?" /><br />
+        <input type="text" name="leftScore" placeholder="Left score" /><br />
+        <input type="text" name="rightScore" placeholder="Right score" /><br />
+        <button type="submit">Send results</button>
     </form>
 {% endblock %}

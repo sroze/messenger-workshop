@@ -7,14 +7,24 @@ framework:
                 middleware:
                     - 'App\Middleware\AuditMiddleware'
 
-
+        failure_transport: failures
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
-            bet_notifications: '%env(MESSENGER_TRANSPORT_DSN)%'
+            bet_notifications:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                serializer: messenger.transport.symfony_serializer
+
+            failures: 'doctrine://default?queue_name=failures'
+            payment_http_api:
+                dsn: https://enbk922qix6t.x.pipedream.net/pay
+                serializer: messenger.transport.symfony_serializer
+                options:
+                    method: PUT
 
         routing:
             # Route your messages to the transports
             'App\Message\LostBet': bet_notifications
+            'App\Message\WonBet': [ bet_notifications, payment_http_api ]

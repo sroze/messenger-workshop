@@ -6,11 +6,11 @@ use App\Entity\Bet;
 
 class LostBet implements BetResult
 {
-    public $bet;
+    private $entity;
 
     public function __construct(Bet $bet)
     {
-        $this->bet = $bet;
+        $this->entity = $bet;
     }
 
     /**
@@ -18,6 +18,6 @@ class LostBet implements BetResult
      */
     public function getBet(): Bet
     {
-        return $this->bet;
+        return $this->entity;
     }
 }

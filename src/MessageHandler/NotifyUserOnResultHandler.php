@@ -45,8 +45,5 @@ class NotifyUserOnResultHandler implements MessageSubscriberInterface
     public function __invoke($message)
     {
         var_dump('got it', get_class($message));
-        echo '<br>';
-
-        sleep(1);
     }
 }

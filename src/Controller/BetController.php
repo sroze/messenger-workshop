@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Message\GameFinished;
 use App\Message\GetBets;
 use App\Message\LostBet;
 use App\Message\PlaceBet;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\HandleTrait;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -33,13 +35,11 @@ class BetController extends AbstractController
     {
         $bets = $this->handle(new GetBets());
         if ($request->isMethod('POST')) {
-            foreach ($bets as $bet) {
-                if (rand(0, 1000) > 200) {
-                    $this->messageBus->dispatch(new LostBet($bet));
-                } else {
-                    $this->messageBus->dispatch(new WonBet($bet));
-                }
-            }
+            $this->messageBus->dispatch(new GameFinished(
+                $request->request->get('game'),
+                $request->request->getInt('leftScore'),
+                $request->request->getInt('rightScore')
+            ));
         }
 
         return [
