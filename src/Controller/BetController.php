@@ -3,27 +3,47 @@
 namespace App\Controller;
 
 use App\Message\GetBets;
+use App\Message\LostBet;
 use App\Message\PlaceBet;
+use App\Message\WonBet;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\HandleTrait;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BetController extends AbstractController
 {
+    use HandleTrait;
+
+    private $messageBus;
+
+    public function __construct(MessageBusInterface $messageBus)
+    {
+        $this->messageBus = $messageBus;
+    }
+
     /**
      * @Route("/", name="home")
      * @Template()
      */
-    public function home(MessageBusInterface $messageBus)
+    public function home(Request $request)
     {
-        $envelope = $messageBus->dispatch(new GetBets());
-        $stamp = $envelope->last(HandledStamp::class);
+        $bets = $this->handle(new GetBets());
+        if ($request->isMethod('POST')) {
+            foreach ($bets as $bet) {
+                if (rand(0, 1000) > 200) {
+                    $this->messageBus->dispatch(new LostBet($bet));
+                } else {
+                    $this->messageBus->dispatch(new WonBet($bet));
+                }
+            }
+        }
 
         return [
-            'bets' => $stamp->getResult(),
+            'bets' => $bets,
         ];
     }
 
