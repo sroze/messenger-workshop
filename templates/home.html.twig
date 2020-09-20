@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+    <div class="bg-dark flex-fill mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+        <div class="my-3 py-3">
+            <h2 class="display-5">Trace</h2>
+            <p class="lead">Register who you've been in contact with.</p>
+        </div>
+        <div class="bg-light shadow-sm mx-auto" style="width: 80%; border-radius: 21px 21px 0 0;">
+            <form class="p-5 text-dark" method="post" action="">
+                <div class="form-group">
+                    <label for="formGroupPersonEmail">Who are you?</label>
+                    <input type="email" class="form-control" id="formGroupPersonEmail" placeholder="Your email" name="person_email">
+                </div>
+                <div class="form-group">
+                    <label for="formGroupPersonSeen">Who did you see?</label>
+                    <input type="email" class="form-control" id="formGroupPersonSeen" placeholder="The other person's email" name="saw_email">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Track</button>
+            </form>
+        </div>
+    </div>
+    <div class="bg-light flex-fill mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+            <h2 class="display-5">I was tested.</h2>
+            <p class="lead">Let people you were in contact know!</p>
+        </div>
+        <div class="bg-dark shadow-sm mx-auto" style="width: 80%; border-radius: 21px 21px 0 0;">
+            <form class="p-5 text-white" method="post" action="">
+                <div class="form-group">
+                    <label for="formGroupPersonEmail">Who are you?</label>
+                    <input type="email" class="form-control" id="formGroupPersonEmail" placeholder="Your email" name="person_email">
+                </div>
+                <div class="form-group">
+                    <label for="formGroupResult">What was the result?</label>
+                    <select class="form-control" id="formGroupResult" name="person_result">
+                        <option value="negative">🌻 I don't have it</option>
+                        <option value="positive">🦠 Oups, another 2 weeks home.</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Broadcast</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
