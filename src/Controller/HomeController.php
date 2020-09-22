@@ -7,6 +7,7 @@ use App\Message\RegisterTrace;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController
@@ -24,10 +25,14 @@ class HomeController
                     $request->get('person_result')
                 ));
             } else {
-                $bus->dispatch(new RegisterTrace(
+                $envelope = $bus->dispatch(new RegisterTrace(
                     $request->get('person_email'),
                     $request->get('saw_email')
                 ));
+
+                return [
+                    'trace' => $envelope->last(HandledStamp::class)->getResult(),
+                ];
             }
         }
     }

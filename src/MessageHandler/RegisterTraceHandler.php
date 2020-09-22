@@ -16,7 +16,7 @@ class RegisterTraceHandler implements MessageHandlerInterface
         $this->entityManager = $entityManager;
     }
 
-    public function __invoke(RegisterTrace $message): void
+    public function __invoke(RegisterTrace $message)
     {
         $trace = new Trace();
         $trace->personEmail = $message->getPerson();
@@ -24,5 +24,7 @@ class RegisterTraceHandler implements MessageHandlerInterface
 
         $this->entityManager->persist($trace);
         $this->entityManager->flush();
+
+        return $trace;
     }
 }

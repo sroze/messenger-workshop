@@ -7,6 +7,9 @@
             <p class="lead">Register who you've been in contact with.</p>
         </div>
         <div class="bg-light shadow-sm mx-auto" style="width: 80%; border-radius: 21px 21px 0 0;">
+            {% if trace is defined %}
+            <div class="alert alert-success">Trace #{{ trace.id }} registered, thank you.</div>
+            {% endif %}
             <form class="p-5 text-dark" method="post" action="">
                 <div class="form-group">
                     <label for="formGroupPersonEmail">Who are you?</label>
