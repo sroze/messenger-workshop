@@ -5,6 +5,11 @@ framework:
         serializer:
             default_serializer: messenger.transport.symfony_serializer
 
+        buses:
+            my_default_bus:
+                middleware:
+                    - 'App\Middleware\AuditMiddleware'
+
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             async: '%env(MESSENGER_TRANSPORT_DSN)%'
