@@ -17,11 +17,11 @@ class RegisterTestResultHandler implements MessageHandlerInterface
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        MessageBusInterface $messageBus
+        MessageBusInterface $busEvents
     )
     {
         $this->entityManager = $entityManager;
-        $this->messageBus = $messageBus;
+        $this->messageBus = $busEvents;
     }
 
     public function __invoke(RegisterTestResult $message)

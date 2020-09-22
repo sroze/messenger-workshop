@@ -15,8 +15,13 @@ class NotifyContacts implements MessageSubscriberInterface
      */
     public static function getHandledMessages(): iterable
     {
-        yield PersonYouSawWasNegative::class;
-        yield PersonYouSawWasPositive::class;
+        yield PersonYouSawWasNegative::class => [
+            'bus' => 'bus_events',
+            'from_transport' => 'priority_async',
+        ];
+        yield PersonYouSawWasPositive::class => [
+            'bus' => 'bus_events',
+        ];
     }
 
     public function __invoke($message)
@@ -25,5 +30,9 @@ class NotifyContacts implements MessageSubscriberInterface
 
         // It takes so long to call the email API...
         sleep(1);
+
+        if (rand(0, 10) > 5) {
+            throw new \Exception('Oups, API call failed.');
+        }
     }
 }

@@ -1,23 +1,31 @@
 framework:
     messenger:
-        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-        # failure_transport: failed
-        serializer:
-            default_serializer: messenger.transport.symfony_serializer
+        failure_transport: failed
+#        serializer:
+#            default_serializer: messenger.transport.symfony_serializer
+        default_bus: bus_commands
 
         buses:
-            my_default_bus:
+            bus_commands:
                 middleware:
-                    - 'App\Middleware\AuditMiddleware'
+                - 'App\Middleware\AuditMiddleware'
+
+            bus_events:
+                middleware:
+                - 'App\Middleware\AcceptNoHandlerMiddleware'
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             async: '%env(MESSENGER_TRANSPORT_DSN)%'
             priority_async: '%env(MESSENGER_TRANSPORT_PRIORITY_DSN)%'
-            # failed: 'doctrine://default?queue_name=failed'
+            failed: 'doctrine://default?queue_name=failed'
+            my_api:
+                dsn: https://enscc9q3r8gh.x.pipedream.net/messagesymfony
+                serializer: messenger.transport.symfony_serializer
+
             # sync: 'sync://'
 
         routing:
             # Route your messages to the transports
             'App\Message\PersonYouSawWasNegative': [ async, priority_async ]
-            'App\Message\PersonYouSawWasPositive': priority_async
+            'App\Message\PersonYouSawWasPositive': [ priority_async, my_api ]
