@@ -20,7 +20,7 @@ framework:
             priority_async: '%env(MESSENGER_TRANSPORT_PRIORITY_DSN)%'
             failed: 'doctrine://default?queue_name=failed'
             my_api:
-                dsn: https://enscc9q3r8gh.x.pipedream.net/messagesymfony
+                dsn: https://enp0dpegm2zx.x.pipedream.net
                 serializer: messenger.transport.symfony_serializer
 
             # sync: 'sync://'
